@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="TACT.Net">
-      <HintPath>G:\WoW-Modding\Legion\Repositories\Tact.Net\TACT.Net\bin\Release\netcoreapp2.2\TACT.Net.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\TACT.Net\TACT.Net.csproj" />
   </ItemGroup>
 
 </Project>

@@ -108,6 +108,13 @@ namespace TACT.Host
 
             tactRepo.Save(tactRepo.BaseDirectory);
 
+            File.Delete(MANIFEST_PATH + @"\versions");
+            File.Delete(MANIFEST_PATH + @"\cdns");
+
+            File.Move(OrigRepo + @"\wow\versions", MANIFEST_PATH + @"\versions");
+            File.Move(OrigRepo + @"\wow\cdns", MANIFEST_PATH + @"\cdns");
+
+            Directory.Delete(OrigRepo + @"\wow");
 
         }
 
