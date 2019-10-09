@@ -13,6 +13,14 @@ It wil **not** host these files for you. You will need to find a own Solution fo
 5. Put Files in **dataFolderPath** in Blizzlike structure (e.g. interface/gluexml/accountlogin.xml)
 6. Run again
 7. Profit
+
+## Multilang support for DB2
+When adding DB2 files add them to the datafolder in this pattern
+
+**dataFolderPath**/dbfilesclient/**LOCALE**/map.db2
+
+e.g. **dataFolderPath**/dbfilesclient/deDE/map.db2
+
 ## Config Params
 -  **CdnRootDir**: Root directory of your local cdn
 - **mysqlUser**: Mysql db username
