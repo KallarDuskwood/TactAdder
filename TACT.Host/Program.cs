@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using TACT.Net;
 using TACT.Net.BlockTable;
 using TACT.Net.Configs;
@@ -13,9 +12,10 @@ namespace TACT.Host
 {
     class Program
     {
-
-        public const string OrigRepo = @"G:\WoW-Modding\Apache24\htdocs\tpr\wow";
-        public const string MANIFEST_PATH = @"G:\WoW-Modding\Apache24\htdocs\wow";
+        public const string ROOT_DIR = @"G:\WoW-Modding\Apache24\htdocs";
+        public const string OrigRepo = ROOT_DIR + @"\tpr\wow";
+        public const string MANIFEST_PATH = ROOT_DIR + @"\wow";
+        
 
 
         static void Main(string[] args)
@@ -106,15 +106,9 @@ namespace TACT.Host
 
             
 
-            tactRepo.Save(tactRepo.BaseDirectory);
+            tactRepo.Save(tactRepo.BaseDirectory, ROOT_DIR);
 
-            File.Delete(MANIFEST_PATH + @"\versions");
-            File.Delete(MANIFEST_PATH + @"\cdns");
 
-            File.Move(OrigRepo + @"\wow\versions", MANIFEST_PATH + @"\versions");
-            File.Move(OrigRepo + @"\wow\cdns", MANIFEST_PATH + @"\cdns");
-
-            Directory.Delete(OrigRepo + @"\wow");
 
         }
 
