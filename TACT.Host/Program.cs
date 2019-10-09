@@ -38,7 +38,7 @@ namespace TACT.Host
 
                 settings = new AppSettings
                 {
-                    CdnRootDir = "",
+                    cdnRootDir = "",
 
                     mysqlUser = "root",
                     mysqlPassword = "root",
@@ -52,8 +52,8 @@ namespace TACT.Host
                 File.WriteAllText(seetingsDir, json);
             }
 
-            CDN_DATA_DIR = settings.CdnRootDir + @"tpr\wow";
-            MANIFEST_PATH = settings.CdnRootDir + @"wow";
+            CDN_DATA_DIR = settings.cdnRootDir + @"tpr\wow";
+            MANIFEST_PATH = settings.cdnRootDir + @"wow";
 
             var tactRepo = new TACTRepo(CDN_DATA_DIR)
             {
@@ -124,6 +124,9 @@ namespace TACT.Host
 
 
                 uint fId = tactRepo.RootFile.FileLookup.GetOrCreateFileId(record.FileName);
+
+                Console.WriteLine("Added " + filename + " with ID: " + fId);
+
                 tactRepo.RootFile.AddOrUpdate(record, tactRepo, locale);
                 tactRepo.InstallFile.AddOrUpdate(record, tactRepo);
 
@@ -131,7 +134,7 @@ namespace TACT.Host
 
             
 
-            tactRepo.Save(tactRepo.BaseDirectory, settings.CdnRootDir);
+            tactRepo.Save(tactRepo.BaseDirectory, settings.cdnRootDir);
 
 
 

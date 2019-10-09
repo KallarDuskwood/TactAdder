@@ -7,7 +7,7 @@ namespace TACT.Host
     class AppSettings
     {
 
-        public string CdnRootDir { get; set; }
+        public string cdnRootDir { get; set; }
         public string mysqlUser { get; set; }
         public string mysqlPassword { get; set; }
         public string dataFolderPath { get; set; }
