@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using TACT.Net;
 using TACT.Net.BlockTable;
 using TACT.Net.Configs;
@@ -12,9 +13,8 @@ namespace TACT.Host
 {
     class Program
     {
-        public const string ROOT_DIR = @"G:\WoW-Modding\Apache24\htdocs";
-        public const string OrigRepo = ROOT_DIR + @"\tpr\wow";
-        public const string MANIFEST_PATH = ROOT_DIR + @"\wow";
+        public static string CDN_DATA_DIR; // = CdnRootDir + @"\tpr\wow";
+        public static string MANIFEST_PATH; // = CdnRootDir + @"\wow";
         
 
 
@@ -38,6 +38,8 @@ namespace TACT.Host
 
                 settings = new AppSettings
                 {
+                    CdnRootDir = "",
+
                     mysqlUser = "root",
                     mysqlPassword = "root",
                     dataFolderPath = Directory.GetCurrentDirectory() + "\\Data\\",
@@ -50,7 +52,10 @@ namespace TACT.Host
                 File.WriteAllText(seetingsDir, json);
             }
 
-            var tactRepo = new TACTRepo(OrigRepo)
+            CDN_DATA_DIR = settings.CdnRootDir + @"tpr\wow";
+            MANIFEST_PATH = settings.CdnRootDir + @"wow";
+
+            var tactRepo = new TACTRepo(CDN_DATA_DIR)
             {
 
                 ManifestContainer = new ManifestContainer("wow", Locale.EU),
@@ -82,31 +87,51 @@ namespace TACT.Host
 
             Console.WriteLine("Found " + files.Length + " Files to proccess in " + settings.dataFolderPath);
 
+            
+
             foreach (string s in files)
             {
 
                 string filename = s.Substring(s.LastIndexOf("\\") + 1);
                 string path = s.Substring(0, s.LastIndexOf("\\") + 1);
 
-                CASRecord record = BlockTableEncoder.EncodeAndExport(settings.dataFolderPath + s, settings.exportFolderPath, (path + filename).Replace("\\", "/"));
 
-                LocaleFlags Locale = LocaleFlags.All_WoW;
+                LocaleFlags locale = LocaleFlags.All_WoW;
 
-                if (filename.Contains("db2"))
-                {
-                    Locale = LocaleFlags.deDE;
-                    Console.WriteLine("Added " + filename);
+                if (path.ToLower().Contains("dbfilesclient")){
+
+                    var match = Regex.Match(path, @"(frFR)|(enUS)|(ptBR)|(ruRU)|(esES)|(esMX)|(itIT)|(deDE)|(enGB)|(ptPT)");
+                    var pathSplit = path.Split("\\");
+                    var localeString = "";
+                    foreach (var split in pathSplit)
+                    {
+                        if (split.Contains(match.Value))
+                        {
+                            locale = (LocaleFlags)Enum.Parse(typeof(LocaleFlags), split);
+                            localeString = split;
+                            path = path.Replace("\\" + localeString, "");
+                            break;
+                        }
+
+                    }
                 }
 
+
+            
+
+                CASRecord record = BlockTableEncoder.EncodeAndExport(settings.dataFolderPath + s, settings.exportFolderPath, (path + filename).Replace("\\", "/"));
+
+
+
                 uint fId = tactRepo.RootFile.FileLookup.GetOrCreateFileId(record.FileName);
-                tactRepo.RootFile.AddOrUpdate(record, tactRepo, Locale);
+                tactRepo.RootFile.AddOrUpdate(record, tactRepo, locale);
                 tactRepo.InstallFile.AddOrUpdate(record, tactRepo);
 
             }
 
             
 
-            tactRepo.Save(tactRepo.BaseDirectory, ROOT_DIR);
+            tactRepo.Save(tactRepo.BaseDirectory, settings.CdnRootDir);
 
 
 
