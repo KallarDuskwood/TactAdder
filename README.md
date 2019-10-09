@@ -17,7 +17,7 @@ It wil **not** host these files for you. You will need to find a own Solution fo
 ## Multilang support for DB2
 When adding DB2 files add them to the datafolder in this pattern
 
-**dataFolderPath**/dbfilesclient/**LOCALE**/map.db2
+**dataFolderPath**/dbfilesclient/**LOCALE**/
 
 e.g. **dataFolderPath**/dbfilesclient/deDE/map.db2
 
