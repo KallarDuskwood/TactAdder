@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using TACT.Net;
 using TACT.Net.BlockTable;
 using TACT.Net.Configs;
@@ -13,7 +14,8 @@ namespace TACT.Host
     class Program
     {
 
-        public const string OrigRepo = @"G:\WoW-Modding\Apache24\htdocs";
+        public const string OrigRepo = @"G:\WoW-Modding\Apache24\htdocs\tpr\wow";
+        public const string MANIFEST_PATH = @"G:\WoW-Modding\Apache24\htdocs\wow";
 
 
         static void Main(string[] args)
@@ -48,18 +50,21 @@ namespace TACT.Host
                 File.WriteAllText(seetingsDir, json);
             }
 
-                var tactRepo = new TACTRepo(OrigRepo)
+            var tactRepo = new TACTRepo(OrigRepo)
             {
 
-                ConfigContainer = new ConfigContainer("wow", Locale.EU)
+                ManifestContainer = new ManifestContainer("wow", Locale.EU),
+                ConfigContainer = new ConfigContainer()
             };
 
-            tactRepo.ConfigContainer.OpenLocal(tactRepo.BaseDirectory);
+            tactRepo.ManifestContainer.OpenLocal(MANIFEST_PATH);
 
+            tactRepo.ConfigContainer.OpenLocal(tactRepo.BaseDirectory, tactRepo.ManifestContainer);
+            
             tactRepo.IndexContainer = new Net.Indices.IndexContainer();
             tactRepo.IndexContainer.Open(tactRepo.BaseDirectory);
-
-
+            
+            
             tactRepo.EncodingFile = new Net.Encoding.EncodingFile(tactRepo.BaseDirectory, tactRepo.ConfigContainer.EncodingEKey);
             tactRepo.EncodingFile.TryGetCKeyEntry(tactRepo.ConfigContainer.RootCKey, out var rootCEntry);
             tactRepo.RootFile = new Net.Root.RootFile(tactRepo.BaseDirectory, rootCEntry.EKey);
@@ -95,7 +100,7 @@ namespace TACT.Host
 
                 uint fId = tactRepo.RootFile.FileLookup.GetOrCreateFileId(record.FileName);
                 tactRepo.RootFile.AddOrUpdate(record, tactRepo, Locale);
-                //tactRepo.InstallFile.AddOrUpdate(record, tactRepo);
+                tactRepo.InstallFile.AddOrUpdate(record, tactRepo);
 
             }
 
@@ -105,5 +110,8 @@ namespace TACT.Host
 
 
         }
+
+
+
     }
 }
