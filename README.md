@@ -4,7 +4,7 @@ It wil **not** host these files for you. You will need to find a own Solution fo
 ## Important
 **This is an early testing build**
 ## Requiernments
-- You need your own **local** CDN
+- You need your own **local** CDN (-> https://model-changing.net/tutorials/article/118-setting-up-a-blizzlike-cdn/)
 ## Usage
 1. Compile from source
 2. Run in empty folder
@@ -36,3 +36,4 @@ Features that are not yet implemented but are in the wworks.
 Thanks to Barncastle for creating Tact.net and Maxtorcoder for helping me out.
 ## Links
 - https://github.com/wowdev/TACT.Net 
+- https://model-changing.net/tutorials/article/136-adding-custom-files-to-a-cdn/
