@@ -22,7 +22,7 @@ When adding DB2 files add them to the datafolder in this pattern
 e.g. **dataFolderPath**/dbfilesclient/deDE/map.db2
 
 ## Config Params
--  **CdnRootDir**: Root directory of your local cdn
+-  **CdnRootDir**: Root directory of your local cdn (Root folder not "tpr\wow")
 - **mysqlUser**: Mysql db username
 - **mysqlPassword**: Mysql db user password
 - **dataFolderPath**: Folder to read files from
