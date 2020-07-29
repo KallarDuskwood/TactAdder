@@ -1,4 +1,7 @@
 # TactAdder
+
+!!! THIS IS FOR LEGION USE ONLY !!!
+
 This programm is used to push files from your local system to a local cdn. It will generate fileid's for new files and overwrite existing ones.
 It wil **not** host these files for you. You will need to find a own Solution for this. This Code is mainly for own uses so support is an option but not a promise.
 ## Important
